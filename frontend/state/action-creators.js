@@ -1,5 +1,5 @@
 // ❗ You don't need to add extra action creators to achieve MVP
-import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER, SET_INFO_MESSAGE} from "./action-types"
+import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER, SET_INFO_MESSAGE, RESET_FORM, INPUT_CHANGE_FALSE, INPUT_CHANGE_QUESTION, INPUT_CHANGE_TRUE, INPUT_CHANGE} from "./action-types"
 import axios from "axios"
 import React from "react"
 
@@ -23,9 +23,25 @@ export function setQuiz(data) {
   return({type: SET_QUIZ_INTO_STATE, payload: data})
 }
 
-export function inputChange() { }
+export function inputChange(input) {
+  return({type: INPUT_CHANGE, payload: input})
+}
 
-export function resetForm() { }
+// export function inputChange1(input) { 
+//   return({type: INPUT_CHANGE_QUESTION, payload: input})
+//  }
+
+// export function inputChange2(input) { 
+//   return({type: INPUT_CHANGE_TRUE, payload: input})
+//  }
+
+// export function inputChange3(input) { 
+//   return({type: INPUT_CHANGE_FALSE, payload: input})
+//  }
+
+export function resetForm() { 
+  return({type: RESET_FORM})
+ }
 
 // ❗ Async action creators
 export function fetchQuiz() {
@@ -52,14 +68,22 @@ export function postAnswer(quizData) {
         dispatch(setMessage(res.data.message))
         dispatch(fetchQuiz());
       })
+      .catch(err => {
+        dispatch(setMessage(err.message))
+      })
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
     // - Dispatch the fetching of the next quiz
   }
 }
-export function postQuiz() {
+export function postQuiz(newQuiz) {
   return function (dispatch) {
+    axios.post('http://localhost:9000/api/quiz/new', newQuiz)
+      .then(res => {
+        dispatch(setMessage(`Congrats: "${res.data.question}" is a great question!`))
+        dispatch(resetForm())
+      })
     // On successful POST:
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form

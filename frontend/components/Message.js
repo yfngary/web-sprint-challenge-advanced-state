@@ -6,7 +6,7 @@ import { setMessage } from '../state/action-creators'
 function Message(props) {
 
   const { quiz } = props;
-  console.log(props)
+
   return <div id="message">{props.infoMessage === '' ? 'Nice Job!' : props.infoMessage}</div>
 }
 

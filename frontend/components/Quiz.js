@@ -16,7 +16,7 @@ function Quiz(props) {
   }, [])
 
   const [isDisabled, setIsDisabled] = useState(true);
-console.log(isDisabled);
+
   function onSubmit() {
 
     const quizData = {
