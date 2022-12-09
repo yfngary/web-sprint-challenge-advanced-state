@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 // import { setQuestion, setSelectedAnswer, setFalseAnswer, setTrueAnswer, } from '../state/action-types'
 import { fetchQuiz, selectAnswer, setMessage, postAnswer } from '../state/action-creators';
@@ -15,6 +15,8 @@ function Quiz(props) {
     }
   }, [])
 
+  const [isDisabled, setIsDisabled] = useState(true);
+console.log(isDisabled);
   function onSubmit() {
 
     const quizData = {
@@ -27,6 +29,7 @@ function Quiz(props) {
     props.postAnswer(quizData);
     props.setMessage(props.infoMessage);
   }
+    
 
   return (
     <div id="wrapper">
@@ -39,7 +42,7 @@ function Quiz(props) {
             <div id="quizAnswers">
 
               <div className={`answer ${quiz.answers[0].answer_id === props.selectedAnswer ? 'selected' : ''}`}>
-                <button onClick={() => { props.selectAnswer(quiz.answers[0].answer_id) }}>
+                <button onClick={() => { props.selectAnswer(quiz.answers[0].answer_id); setIsDisabled(false)}}>
                   {quiz.answers[0].answer_id === props.selectedAnswer ? 'SELECTED' : 'Select'}
                 </button>
                 {quiz.answers[0].text}
@@ -47,14 +50,13 @@ function Quiz(props) {
 
               <div className={`answer ${quiz.answers[1].answer_id === props.selectedAnswer ? 'selected' : ''}`}>
 
-                <button onClick={() => { props.selectAnswer(quiz.answers[1].answer_id) }}>
+                <button onClick={() => { props.selectAnswer(quiz.answers[1].answer_id); setIsDisabled(false)}}>
                   {quiz.answers[1].answer_id === props.selectedAnswer ? 'SELECTED' : 'Select'}
                 </button>
                 {quiz.answers[1].text}
               </div>
             </div>
-
-            <button id="submitAnswerBtn" onClick={() => {onSubmit()}}>Submit answer</button>
+           <button id="submitAnswerBtn" onClick={() => {onSubmit(); setIsDisabled(true)}} disabled={isDisabled} >Submit answer</button> 
           </>
         ) : 'Loading next quiz...'
       }
