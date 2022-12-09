@@ -1,5 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { setMessage } from '../state/action-creators'
 
-export default function Message(props) {
-  return <div id="message">Nice job!</div>
+
+function Message(props) {
+
+  const { quiz } = props;
+  console.log(props)
+  return <div id="message">{props.infoMessage === '' ? 'Nice Job!' : props.infoMessage}</div>
 }
+
+const mapStateToProps = state => {
+  return state
+}
+
+export default connect(mapStateToProps, { setMessage })(Message);

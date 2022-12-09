@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchQuiz, selectAnswer, setMessage, postAnswer } from '../state/action-creators';
 
 function Quiz(props) {
-  console.log(props);
+  // console.log(props);
 
   // const { question, quiz_id, answers, qui } = props;
   const { quiz } = props;
@@ -22,9 +22,10 @@ function Quiz(props) {
       answer_id: props.selectedAnswer
     }
 
-    console.log(quizData)
+    // console.log(quizData)
 
     props.postAnswer(quizData);
+    props.setMessage(props.infoMessage);
   }
 
   return (

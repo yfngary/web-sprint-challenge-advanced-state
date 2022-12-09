@@ -50,6 +50,7 @@ export function postAnswer(quizData) {
       .then(res => {
         dispatch(selectAnswer(null));
         dispatch(setMessage(res.data.message))
+        dispatch(fetchQuiz());
       })
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
